@@ -17,6 +17,42 @@ function parseFrontmatter(raw: string): { data: Record<string, unknown>; content
   return { data, content: text.slice(match[0].length) };
 }
 
+/**
+ * Let authors size a collapsible title with normal markdown:
+ *   <summary>### Exercise 1</summary>
+ *
+ * Markdown is not parsed inside a raw HTML line, so the heading is lifted onto
+ * a block of its own (the blank lines end and restart the surrounding HTML
+ * block, and rehype-raw stitches the pieces back together). It then behaves
+ * like every other heading: real heading size, a slug id, a copy-link icon,
+ * and an entry in the table of contents. Lines inside fenced code blocks are
+ * left alone, so documenting the syntax in a code fence still shows it as
+ * written.
+ */
+function expandSummaryHeadings(body: string): string {
+  if (!body.includes("<summary")) return body;
+  const out: string[] = [];
+  let fence = "";
+  for (const line of body.split("\n")) {
+    const marker = line.match(/^\s*(`{3,}|~{3,})/);
+    if (marker) {
+      if (!fence) fence = marker[1];
+      else if (marker[1][0] === fence[0] && marker[1].length >= fence.length) fence = "";
+      out.push(line);
+      continue;
+    }
+    if (fence) {
+      out.push(line);
+      continue;
+    }
+    const m = line.match(
+      /^([ \t]*)(<summary(?:\s[^>]*)?>)[ \t]*(#{1,6}[ \t]+.+?)[ \t]*(<\/summary>[ \t]*)$/i,
+    );
+    out.push(m ? `${m[1]}${m[2]}\n\n${m[1]}${m[3]}\n\n${m[1]}${m[4]}` : line);
+  }
+  return out.join("\n");
+}
+
 export interface PageFrontmatter {
   title: string;
   nav_order?: number;
@@ -58,7 +94,7 @@ export const pages: Page[] = Object.entries(rawModules)
       slug: fileToSlug(filePath),
       path: filePath.replace(/^\//, ""),
       frontmatter: parsed.data as unknown as PageFrontmatter,
-      body: parsed.content,
+      body: expandSummaryHeadings(parsed.content),
     };
   })
   .sort((a, b) => (a.frontmatter.nav_order ?? 999) - (b.frontmatter.nav_order ?? 999));

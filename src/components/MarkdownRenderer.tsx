@@ -362,6 +362,22 @@ export function MarkdownRenderer({ source, enableGlossary = true }: MarkdownRend
     return () => el.removeEventListener("click", onClick);
   }, []);
 
+  // A shared link can point at a heading that titles a collapsed <details>
+  // (e.g. an exercise). Open it so the reader lands on the content, not on a
+  // closed box.
+  React.useEffect(() => {
+    const hash = window.location.hash.slice(1);
+    if (!hash) return;
+    let id = hash;
+    try {
+      id = decodeURIComponent(hash);
+    } catch {
+      /* malformed escape: use the raw hash */
+    }
+    const target = containerRef.current?.querySelector(`[id="${CSS.escape(id)}"]`);
+    target?.closest("details")?.setAttribute("open", "");
+  }, [processedSource]);
+
   return (
     <div className="prose-lumi" ref={containerRef}>
       <ReactMarkdown

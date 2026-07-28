@@ -138,6 +138,30 @@ Q: Which of these are valid GPU partitions? (select all)
 
 See [Chapter 1](/chapter1) for another example in context.
 
+## Hiding content behind a click
+
+Wrap anything in `<details>` to collapse it, and put the clickable title in `<summary>`. This is handy for exercise solutions, long log output, or optional deep-dives that would otherwise interrupt the page. Leave an empty line after the `<summary>` line and before the closing `</details>`, otherwise the content inside is not treated as Markdown:
+
+<details>
+<summary>Show the solution</summary>
+
+Submit the job and check the queue:
+
+```bash
+sbatch submit.sh
+squeue --me
+```
+
+</details>
+
+Anything can go inside: callouts, code blocks, images, tables, quizzes, even another collapsible section. Add `open` (`<details open>`) to start expanded. Writing the title as a heading (`<summary>### Exercise 1</summary>`) sizes it like a normal `###` heading and lists it in the table of contents on the right:
+
+<details>
+<summary>### Exercise 1: submitting a job</summary>
+
+Write a `submit.sh` script that runs `train.py` on one GPU node.
+
+</details>
 
 ## Embedding pictures
 
