@@ -34,7 +34,7 @@ Whenever you want the latest template version (commit and push your own work fir
 
 ```bash
 git fetch template
-git checkout template/main -- . ":(exclude)content" ":(exclude)site.config.ts" ":(exclude)README.md"
+git checkout template/main -- . ":(exclude)content" ":(exclude)public" ":(exclude)site.config.ts" ":(exclude)README.md"
 git commit -m "Pull in template updates"
 git push
 ```
