@@ -6,6 +6,7 @@ This is a template for creating clean, branded self-learning course sites for th
 - has light and dark mode (auto-follows the visitor's system, with a manual toggle);
 - supports headings, lists, tables, code blocks with syntax highlighting and copy-to-clipboard, math (KaTeX), diagrams (Mermaid), images, embedded videos, and four branded callout types;
 - can be edited just by adding/editing `.md` files in the `content/` folder;
+- names itself from your content: the top heading of `content/index.md` becomes the site title, so there is no configuration file to edit;
 - can be built and published on [GitHub Pages].
 
 ## Quick start
@@ -22,7 +23,7 @@ The demo with examples of how to add content and new pages can be found in `cont
 
 ## Getting template updates into your course
 
-The template keeps improving (styling fixes, new features). A repository made with **Use this template** does not share git history with this template, so there is no "Sync fork" button — instead you copy the template's internals over with the commands below. Your own work is left alone: everything in `content/`, everything in `public/` (your images, logos, and any files you link to), your `site.config.ts`, and your `README.md` are untouched.
+The template keeps improving (styling fixes, new features). A repository made with **Use this template** does not share git history with this template, so there is no "Sync fork" button — instead you copy the template's internals over with the commands below. Your own work is left alone: everything in `content/`, everything in `public/` (your images, logos, and any files you link to), and your `README.md` are untouched.
 
 You need a local clone of **your** repository (`git clone <your-repo-url>`). Then, one time only, register the template as an extra remote:
 
@@ -34,7 +35,7 @@ Whenever you want the latest template version (commit and push your own work fir
 
 ```bash
 git fetch template
-git checkout template/main -- . ":(exclude)content" ":(exclude)public" ":(exclude)site.config.ts" ":(exclude)README.md"
+git checkout template/main -- . ":(exclude)content" ":(exclude)public" ":(exclude)README.md"
 git commit -m "Pull in template updates"
 git push
 ```
@@ -45,7 +46,7 @@ Good to know:
 
 - Review what changed before committing with `git status`.
 - If you edited the template's internals yourself (anything under `src/`, the build config, the deploy workflow), those edits are overwritten by this — re-apply them afterwards.
-- If a template update adds new settings, compare your config with the template's: `git diff HEAD template/main -- site.config.ts`.
+- Older copies of the template had a `site.config.ts` in the repository root. The site now names itself from `content/index.md`, so that file no longer does anything and can be deleted.
 
 [GitHub Pages]: https://docs.github.com/en/pages
 [use this template]: https://github.com/Arbruiser/LUMI_AIF_template/generate

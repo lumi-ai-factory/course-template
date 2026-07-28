@@ -7,7 +7,7 @@ import { readdirSync, statSync, writeFileSync, mkdirSync } from "node:fs";
 import { execFileSync } from "node:child_process";
 import { join, relative } from "node:path";
 import type { Plugin } from "vite";
-// Note: do NOT import ./site.config here — it reads import.meta.env, which is
+// Note: do NOT import ./src/lib/site here — it reads import.meta.env, which is
 // undefined when vite.config.ts itself runs in Node, and would crash the build.
 
 const basePath = process.env.VITE_BASE_PATH || "/";

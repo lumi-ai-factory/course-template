@@ -145,6 +145,52 @@ export function findPage(slug: string): Page | undefined {
 }
 
 /**
+ * Strip the inline markdown that would otherwise leak into plain text taken
+ * from a body: images, links, inline code, emphasis, and glossary markers.
+ * Used for meta descriptions and for the derived site title.
+ */
+function stripInlineMarkdown(text: string): string {
+  return text
+    .replace(/!\[[^\]]*\]\([^)]*\)/g, "") // images
+    .replace(/\[([^\]]+)\]\([^)]*\)/g, "$1") // links -> text
+    .replace(/`([^`]*)`/g, "$1") // inline code
+    .replace(/\*\*([^*]+)\*\*/g, "$1")
+    .replace(/\*([^*]+)\*/g, "$1")
+    .replace(/__([^_]+)__/g, "$1")
+    .replace(/_([^_]+)_/g, "$1")
+    // Glossary markers: a "%" directly after a letter ends a `Term%` marker.
+    // Percentages ("40%") follow digits, so they survive. `\%` escapes to "%".
+    .replace(/(?<=\p{L})%/gu, "")
+    .replace(/\\%/g, "%")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+/**
+ * First heading of a markdown body as plain text, or "" when there is none.
+ * Headings inside fenced code blocks are skipped, so documenting markdown in a
+ * code fence never wins. This is how the site gets its name: the `#` heading at
+ * the top of `content/index.md` is the site title, so an author renames their
+ * whole site by editing one heading they were writing anyway.
+ */
+export function firstHeading(body: string): string {
+  let fence = "";
+  for (const raw of body.split(/\r?\n/)) {
+    const line = raw.trim();
+    const marker = line.match(/^(`{3,}|~{3,})/);
+    if (marker) {
+      if (!fence) fence = marker[1];
+      else if (marker[1][0] === fence[0] && marker[1].length >= fence.length) fence = "";
+      continue;
+    }
+    if (fence) continue;
+    const heading = line.match(/^#{1,6}[ \t]+(.+?)[ \t]*#*$/);
+    if (heading) return stripInlineMarkdown(heading[1]);
+  }
+  return "";
+}
+
+/**
  * Produce a meta description for a page. Uses the front-matter `description`
  * when an author set one, otherwise auto-derives it from the first real
  * paragraph of the markdown body — so creators never have to write one.
@@ -186,22 +232,7 @@ export function getPageDescription(page: Page, maxLen = 155): string {
     paragraph.push(line);
   }
 
-  let text = paragraph.join(" ");
-  // Strip the most common inline markdown so the description reads cleanly.
-  text = text
-    .replace(/!\[[^\]]*\]\([^)]*\)/g, "") // images
-    .replace(/\[([^\]]+)\]\([^)]*\)/g, "$1") // links -> text
-    .replace(/`([^`]*)`/g, "$1") // inline code
-    .replace(/\*\*([^*]+)\*\*/g, "$1")
-    .replace(/\*([^*]+)\*/g, "$1")
-    .replace(/__([^_]+)__/g, "$1")
-    .replace(/_([^_]+)_/g, "$1")
-    // Glossary markers: a "%" directly after a letter ends a `Term%` marker.
-    // Percentages ("40%") follow digits, so they survive. `\%` escapes to "%".
-    .replace(/(?<=\p{L})%/gu, "")
-    .replace(/\\%/g, "%")
-    .replace(/\s+/g, " ")
-    .trim();
+  const text = stripInlineMarkdown(paragraph.join(" "));
 
   if (!text) return "";
   if (text.length <= maxLen) return text;

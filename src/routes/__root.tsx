@@ -14,7 +14,7 @@ import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/AppSidebar";
 import { Header } from "@/components/Header";
 import { Toaster } from "@/components/ui/sonner";
-import { siteConfig } from "../../site.config";
+import { siteConfig } from "@/lib/site";
 
 function NotFoundComponent() {
   return (

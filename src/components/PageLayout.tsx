@@ -6,7 +6,7 @@ import { TableOfContents } from "./TableOfContents";
 import { extractToc } from "@/lib/toc";
 import { getBreadcrumbs, getPrevNext, type Page } from "@/lib/content";
 import { useScrollMemory } from "@/hooks/use-scroll-memory";
-import { siteConfig } from "../../site.config";
+import { siteConfig } from "@/lib/site";
 
 interface Props {
   page: Page;
