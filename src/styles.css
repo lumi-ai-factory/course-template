@@ -773,6 +773,22 @@ pre.with-line-numbers .code-line::before {
   height: auto;
 }
 
+/* Node labels are real HTML inside <foreignObject>, and mermaid sizes every box
+   by measuring that HTML in a scratch container attached to <body>, outside
+   .prose-lumi. The finished SVG then lands here, inside .prose-lumi, where the
+   prose paragraph rules suddenly apply: taller line-height plus 0.9rem of
+   vertical margin make the label taller than the box mermaid already drew for
+   it, so the text spills out the bottom. Pin the label typography back to the
+   values mermaid measured against. */
+.prose-lumi .mermaid-block p {
+  margin: 0;
+  line-height: 1.5;
+}
+
+.prose-lumi .mermaid-block strong {
+  font-weight: 700;
+}
+
 /* Mermaid inlines its own theme colour behind arrow labels; forcing it to
    the box token here guarantees labels always blend into the box, whatever
    hex mermaid was initialized with. */

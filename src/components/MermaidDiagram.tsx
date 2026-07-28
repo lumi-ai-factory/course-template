@@ -140,8 +140,11 @@ export function MermaidDiagram({ source }: MermaidDiagramProps) {
 
   React.useEffect(() => {
     let cancelled = false;
-    loadMermaid()
-      .then((mermaid) => {
+    // Inter is a self-hosted web font, and mermaid sizes every box by measuring
+    // its label in the browser. Measuring before the font swaps in bakes the
+    // fallback font's metrics into the SVG, so wait for fonts first.
+    Promise.all([loadMermaid(), document.fonts?.ready])
+      .then(([mermaid]) => {
         // initialize() is global, but every diagram on a page shares the same
         // resolved theme, so re-initializing before each render is safe.
         mermaid.initialize({
@@ -151,6 +154,12 @@ export function MermaidDiagram({ source }: MermaidDiagramProps) {
           theme: "base",
           themeVariables: buildThemeVariables(resolved),
           fontFamily: "Inter, ui-sans-serif, system-ui, sans-serif",
+          // Mermaid's 200px default is narrower than a typical authored line,
+          // so it re-wraps labels that already carry their own <br/> breaks and
+          // leaves orphan words. Wide enough for a hand-broken line to survive,
+          // still narrow enough that an unbroken sentence wraps instead of
+          // stretching the diagram off the page.
+          flowchart: { wrappingWidth: 340 },
         });
         return mermaid.render(`lumi-mermaid-${++renderSeq}`, source);
       })
