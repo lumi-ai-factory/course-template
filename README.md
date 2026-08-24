@@ -1,5 +1,7 @@
 # LUMI AI Factory — Branded Learning Template
 
+![LUMI AI Factory logo](public/assets/LUMI_AIF_logo_white_background.png)
+
 This is a template for creating clean, branded self-learning course sites for the **LUMI AI Factory**. The site:
 
 - has the LUMI AI Factory branding and colours;
