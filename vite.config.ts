@@ -3,12 +3,15 @@ import { tanstackStart } from "@tanstack/react-start/plugin/vite";
 import viteReact from "@vitejs/plugin-react";
 import tailwindcss from "@tailwindcss/vite";
 import tsConfigPaths from "vite-tsconfig-paths";
-import { readdirSync, statSync, writeFileSync, mkdirSync } from "node:fs";
+import { readdirSync, readFileSync, statSync, writeFileSync, mkdirSync } from "node:fs";
 import { execFileSync } from "node:child_process";
 import { join, relative } from "node:path";
 import type { Plugin } from "vite";
 // Note: do NOT import ./src/lib/site here — it reads import.meta.env, which is
 // undefined when vite.config.ts itself runs in Node, and would crash the build.
+// ./src/lib/page-blocks is deliberately free of import.meta so that both this
+// file and the app split markdown into pages by exactly the same rule.
+import { pageSlugs } from "./src/lib/page-blocks";
 
 const basePath = process.env.VITE_BASE_PATH || "/";
 
@@ -25,6 +28,15 @@ function walkMd(dir: string, out: string[] = []): string[] {
 function fileToSlug(filePath: string): string {
   const rel = relative("content", filePath).replace(/\\/g, "/").replace(/\.md$/, "");
   return rel === "index" ? "" : rel;
+}
+
+/**
+ * Every slug one markdown file contributes. Usually one, but a file whose
+ * author kept the subchapters inside it contributes one per front-matter block,
+ * and each of those is a real page that has to be prerendered and listed.
+ */
+function slugsInFile(filePath: string): string[] {
+  return pageSlugs(readFileSync(filePath, "utf-8"), fileToSlug(filePath));
 }
 
 function joinUrl(a: string, b: string) {
@@ -57,11 +69,12 @@ function sitemapPlugin(): Plugin {
         const files = walkMd("content");
         const base = (process.env.VITE_SITE_URL || "").replace(/\/$/, "");
         if (!base) return;
-        const urls = files.map((f) => {
-          const slug = fileToSlug(f);
-          const loc = slug === "" ? `${base}/` : `${base}/${slug}/`;
+        const urls = files.flatMap((f) => {
           const lastmod = lastModified(f);
-          return `  <url><loc>${loc}</loc><lastmod>${lastmod}</lastmod></url>`;
+          return slugsInFile(f).map((slug) => {
+            const loc = slug === "" ? `${base}/` : `${base}/${slug}/`;
+            return `  <url><loc>${loc}</loc><lastmod>${lastmod}</lastmod></url>`;
+          });
         });
         const xml = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls.join("\n")}\n</urlset>\n`;
         const robots = `User-agent: *\nAllow: /\n\nSitemap: ${joinUrl(base, "sitemap.xml")}\n`;
@@ -84,7 +97,7 @@ function sitemapPlugin(): Plugin {
 // sidebar item highlighted — instead of falling back to the "/" shell (which
 // would always show the first/home chapter as active until JS hydrates).
 function contentPages() {
-  const slugs = walkMd("content").map(fileToSlug);
+  const slugs = walkMd("content").flatMap(slugsInFile);
   const paths = new Set<string>(["/"]);
   for (const slug of slugs) paths.add(slug === "" ? "/" : `/${slug}/`);
   return Array.from(paths).map((path) => ({

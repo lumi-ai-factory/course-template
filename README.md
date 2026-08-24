@@ -19,9 +19,9 @@ This is a template for creating clean, branded self-learning course sites for th
 4. Make and commit any change to `content/index.md` and your website will be "built and deployed". In a minute, when the yellow circle next to your name in the repo has changed from a yellow circle to a green tick (refresh the page), you can access your website via the link that appeared in Step 3.
 5. Edit `content/index.md` and add your content. To force refresh the website page (to tell your browser not to use the cached version), press ctrl + F5 on Linux and Windows, or Cmd + Shift + R on Mac. 
 
-Every push a commit to your repository, the website is rebuilt and redeployed automatically (can take a minute).
+Every time you push a commit to your repository, the website is rebuilt and redeployed automatically (can take a minute).
 
-The demo with examples of how to add content and new pages can be found in `content/index.md`
+The demo with examples of how to add content and new pages can be found in `content/index.md`.
 
 ## Getting template updates into your course
 

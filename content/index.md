@@ -25,6 +25,8 @@ Where:
 - `nav_order` controls the order pages appear in the sidebar.
 - `parent` (optional) groups a page underneath a chapter. See `content/chapter1.md` for an example.
 
+3. **Add subpages.** You can add subpages either by creating separate `.md` files or by appending new front matter blocks to existing files. See [Chapter 1](/chapter1) for a full guide on both methods.
+
 ## Branded callout boxes
 
 Use callout boxes to highlight information for your students. Just start a blockquote with `[!type]` and optionally a custom title. The next line or lines are the main content of the callout box.
@@ -164,7 +166,6 @@ Write a `submit.sh` script that runs `train.py` on one GPU node.
 </details>
 
 ## Embedding pictures
-
 
 Drop your image in the `public/assets/` folder of the repository, then reference it from any `.md` file using the `./assets/...` form as such:
 
