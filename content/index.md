@@ -276,7 +276,7 @@ See the [Glossary](/glossary) page for the term table you edit.
 
 ## Jupyter notebooks as pages
 
-If your material is already written as Jupyter notebooks, you do not have to rewrite it in Markdown. Drop the `.ipynb` files into `content/` and each one becomes a page, exactly as a `.md` file does. [Chapter 2](/03_notebook_example) is a notebook, and explains the rest.
+You can drop `.ipynb` files directly into the `content/` folder. The template converts them into pages automatically on the fly. They will look and feel exactly like regular pages, appearing in the sidebar and table of contents with no extra effort required. See [Chapter 2](/03_notebook_example) for a working example and details on how notebook features map to pages.
 
 ## Need help?
 

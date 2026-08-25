@@ -222,6 +222,14 @@ function relocateImages(text: string, onImage?: (fileName: string) => void): str
     .join("\n");
 }
 
+/** `nav_order` as a number, whether or not the author quoted it in the YAML. */
+function asNavOrder(value: unknown): number | undefined {
+  if (typeof value === "number") return Number.isFinite(value) ? value : undefined;
+  if (typeof value !== "string" || !value.trim()) return undefined;
+  const parsed = Number(value);
+  return Number.isFinite(parsed) ? parsed : undefined;
+}
+
 function quote(value: string): string {
   return `"${value.replace(/\\/g, "\\\\").replace(/"/g, '\\"')}"`;
 }
@@ -299,8 +307,34 @@ export function notebookToMarkdown(
   for (const cell of notebook.cells ?? []) {
     const text = cellText(cell);
     if (cell.cell_type === "markdown") {
-      if (!text.trim()) continue;
-      parts.push(relocateImages(inlineAttachments(text, cell.attachments), options?.onImage).trim());
+      let markdownText = text;
+      // Front matter is read only at the top of the notebook, before any
+      // content. Further down, a cell opening with `---` is left in the body so
+      // that `page-blocks.ts` can start a subchapter from it, exactly as it
+      // does in a `.md` file. Reading it anywhere would silently retitle the
+      // page instead of adding one.
+      const fmMatch =
+        parts.length === 0
+          ? markdownText.match(/^[ \t]*---[ \t]*\r?\n([\s\S]*?)\r?\n[ \t]*---[ \t]*(?:\r?\n|$)/)
+          : null;
+      if (fmMatch) {
+        const inner = fmMatch[1];
+        if (FRONT_MATTER_KEY.test(inner)) {
+          try {
+            const parsed = parseYaml(inner);
+            if (parsed && typeof parsed === "object" && !Array.isArray(parsed)) {
+              front = { ...front, ...(parsed as Record<string, unknown>) };
+              markdownText = markdownText.slice(fmMatch[0].length);
+            }
+          } catch {
+            warn?.(
+              `a markdown cell starts with what looks like front matter but it could not be read. Put quotes around any value containing a colon, e.g. title: "Chapter 2: Slurm".`
+            );
+          }
+        }
+      }
+      if (!markdownText.trim()) continue;
+      parts.push(relocateImages(inlineAttachments(markdownText, cell.attachments), options?.onImage).trim());
       continue;
     }
     if (cell.cell_type === "code") {
@@ -328,7 +362,7 @@ export function notebookToMarkdown(
   return [
     toFrontMatter({
       title: given || firstHeading(body) || derived.title,
-      nav_order: typeof givenOrder === "number" ? givenOrder : derived.navOrder,
+      nav_order: asNavOrder(givenOrder) ?? derived.navOrder,
       ...rest,
     }),
     "",
