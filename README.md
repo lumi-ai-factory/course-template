@@ -8,6 +8,7 @@ This is a template for creating clean, branded self-learning course sites for th
 - has light and dark mode (auto-follows the visitor's system, with a manual toggle);
 - supports headings, lists, tables, code blocks with syntax highlighting and copy-to-clipboard, math (KaTeX), diagrams (Mermaid), images, embedded videos, and four branded callout types;
 - can be edited just by adding/editing `.md` files in the `content/` folder;
+- turns Jupyter notebooks into pages too: drop your `.ipynb` files into `content/` and they are rendered alongside the Markdown ones;
 - names itself from your content: the top heading of `content/index.md` becomes the site title, so there is no configuration file to edit;
 - can be built and published on [GitHub Pages].
 

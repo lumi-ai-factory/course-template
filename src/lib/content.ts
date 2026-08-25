@@ -1,4 +1,5 @@
 import { blockSlug, splitPageBlocks } from "./page-blocks";
+import { isNotebookPath, notebookToMarkdown } from "./notebook";
 
 /**
  * Let authors size a collapsible title with normal markdown:
@@ -62,7 +63,7 @@ export interface Page {
   parentSlug?: string;
 }
 
-const rawModules = import.meta.glob("/content/**/*.md", {
+const rawModules = import.meta.glob("/content/**/*.{md,ipynb}", {
   query: "?raw",
   import: "default",
   eager: true,
@@ -72,7 +73,8 @@ function fileToSlug(filePath: string): string {
   // "/content/index.md" -> ""
   // "/content/chapter1.md" -> "chapter1"
   // "/content/sub/page.md" -> "sub/page"
-  const rel = filePath.replace(/^\/content\//, "").replace(/\.md$/, "");
+  // "/content/01_intro.ipynb" -> "01_intro"
+  const rel = filePath.replace(/^\/content\//, "").replace(/\.(md|ipynb)$/, "");
   return rel === "index" ? "" : rel;
 }
 
@@ -81,12 +83,19 @@ function fileToSlug(filePath: string): string {
  * further front-matter blocks contributes one page per block, so a chapter can
  * keep its subchapters in the same file. Those extra pages are ordinary in
  * every way: their own URL, sidebar entry, breadcrumbs and Previous/Next step.
+ *
+ * A `.ipynb` file is a page too: it is converted to markdown on the way in and
+ * is indistinguishable from a `.md` file from here on.
  */
 export const pages: Page[] = Object.entries(rawModules)
   .flatMap(([filePath, raw]) => {
     const path = filePath.replace(/^\//, "");
     const fileSlug = fileToSlug(filePath);
-    const blocks = splitPageBlocks(raw, (message) => console.warn(`[content] ${path}: ${message}`));
+    const warn = (message: string) => console.warn(`[content] ${path}: ${message}`);
+    const text = isNotebookPath(filePath)
+      ? notebookToMarkdown(raw, filePath.replace(/^\/content\//, ""), warn)
+      : raw;
+    const blocks = splitPageBlocks(text, warn);
     return blocks.map((block, i) => ({
       slug: i === 0 ? fileSlug : blockSlug(block.data, fileSlug, i),
       path,

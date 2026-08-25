@@ -274,6 +274,10 @@ Once a term is defined there, you can reference it anywhere by putting a single 
 
 See the [Glossary](/glossary) page for the term table you edit.
 
+## Jupyter notebooks as pages
+
+If your material is already written as Jupyter notebooks, you do not have to rewrite it in Markdown. Drop the `.ipynb` files into `content/` and each one becomes a page, exactly as a `.md` file does. [Chapter 2](/03_notebook_example) is a notebook, and explains the rest.
+
 ## Need help?
 
 If you have ideas on how to make this template even better, I’d love to hear them! Send me an email at `name.surname@csc.fi` where name is Artur and surname is Vojt-Antal (anti-spam measure).
