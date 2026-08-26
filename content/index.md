@@ -173,7 +173,7 @@ Drop your image in the `public/assets/` folder of the repository, then reference
 
 Images are clickable and can be opened full-screen. 
 
-(Optional) For a captioned, resized image, use HTML directly inside your markdown. Use a percentage width (`%`) so the image scales with the text column and looks the same on every screen:
+(Optional) For a captioned, resized image, use HTML directly inside your markdown. Use a percentage width (`%`) so the image scales with the text column and looks the same on every screen. Make sure to have an empty line before and after the HTML block:
 
 <figure>
   <img src="./assets/lumi-data-center.jpg" alt="LUMI data center visual from the LUMI brand guide" style="width: 60%; max-width: 100%; margin: 0 auto; display: block;" />
