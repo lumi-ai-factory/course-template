@@ -180,6 +180,13 @@ Images are clickable and can be opened full-screen.
   <figcaption><em>Figure 1: LUMI data center visual from the LUMI brand guide.</em></figcaption>
 </figure>
 
+If you want the image and the caption sitting on the left instead of being centred, use `margin: 0` on the image and `text-align: left` on the caption:
+
+<figure>
+  <img src="./assets/lumi-data-center.jpg" alt="LUMI data center visual from the LUMI brand guide" style="width: 60%; max-width: 100%; margin: 0; display: block;" />
+  <figcaption style="text-align: left;"><em>Figure 2: the same picture, aligned left.</em></figcaption>
+</figure>
+
 ## Offering files for download
 
 To let readers download a file (a notebook, dataset, script, or archive), drop it in the same `public/assets/` folder and link to it with the `./assets/...` form, just like an image. Any target that is not an image or another page renders as a download button showing the file name and type:
