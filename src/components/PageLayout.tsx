@@ -89,38 +89,38 @@ export function PageLayout({ page }: Props) {
           </nav>
         )}
 
-        <footer className="mt-16 flex flex-col items-center gap-5 border-t border-border pt-8 pb-12 text-center text-[13px] leading-relaxed text-muted-foreground/60">
+        <footer className="mt-16 flex flex-col items-center gap-3 border-t border-border pt-8 pb-12 text-center text-[13px] leading-relaxed text-muted-foreground/70">
           {siteConfig.fundingNotice && (
-            <p className="max-w-[70ch]">
-              {siteConfig.fundingNotice}
-            </p>
+            <p className="max-w-[62ch] text-pretty">{siteConfig.fundingNotice}</p>
           )}
-          <div className="max-w-[70ch] space-y-1">
-            <p>
-              The content and documentation are licensed under the{" "}
+          <p className="flex flex-wrap items-center justify-center gap-x-2 gap-y-1">
+            <span>
+              Content licensed under{" "}
               <a
                 href="https://creativecommons.org/licenses/by/4.0/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="font-medium text-muted-foreground hover:text-foreground transition-colors"
+                title="Creative Commons Attribution 4.0 International"
+                className="underline decoration-border underline-offset-4 transition-colors hover:text-lumi-magenta hover:decoration-lumi-magenta"
               >
-                Creative Commons Attribution 4.0 International License (CC-BY 4.0)
+                CC BY 4.0
               </a>
-              .
-            </p>
-            <p>
-              The code and examples are licensed under the{" "}
+            </span>
+            <span aria-hidden="true" className="opacity-50">
+              &middot;
+            </span>
+            <span>
+              Code licensed under the{" "}
               <a
-                href="https://opensource.org/licenses/MIT"
+                href="https://opensource.org/license/mit"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="font-medium text-muted-foreground hover:text-foreground transition-colors"
+                className="underline decoration-border underline-offset-4 transition-colors hover:text-lumi-magenta hover:decoration-lumi-magenta"
               >
-                MIT License
+                MIT Licence
               </a>
-              .
-            </p>
-          </div>
+            </span>
+          </p>
         </footer>
       </article>
 
