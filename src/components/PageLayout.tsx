@@ -12,6 +12,9 @@ interface Props {
   page: Page;
 }
 
+const footerLink =
+  "underline decoration-border underline-offset-4 transition-colors hover:text-lumi-magenta hover:decoration-lumi-magenta";
+
 export function PageLayout({ page }: Props) {
   const articleRef = React.useRef<HTMLElement>(null);
   useScrollMemory(page.slug, articleRef);
@@ -90,37 +93,41 @@ export function PageLayout({ page }: Props) {
         )}
 
         <footer className="mt-16 flex flex-col items-center gap-3 border-t border-border pt-8 pb-12 text-center text-[13px] leading-relaxed text-muted-foreground/70">
-          {siteConfig.fundingNotice && (
-            <p className="max-w-[62ch] text-pretty">{siteConfig.fundingNotice}</p>
-          )}
-          <p className="flex flex-wrap items-center justify-center gap-x-2 gap-y-1">
-            <span>
+          <p className="flex flex-wrap items-center justify-center gap-x-2.5 gap-y-1">
+            <span className="whitespace-nowrap">{siteConfig.copyright}</span>
+            <span aria-hidden="true" className="opacity-40">
+              &middot;
+            </span>
+            <span className="whitespace-nowrap">
               Content licensed under{" "}
               <a
                 href="https://creativecommons.org/licenses/by/4.0/"
                 target="_blank"
                 rel="noopener noreferrer"
                 title="Creative Commons Attribution 4.0 International"
-                className="underline decoration-border underline-offset-4 transition-colors hover:text-lumi-magenta hover:decoration-lumi-magenta"
+                className={footerLink}
               >
                 CC BY 4.0
               </a>
             </span>
-            <span aria-hidden="true" className="opacity-50">
+            <span aria-hidden="true" className="opacity-40">
               &middot;
             </span>
-            <span>
+            <span className="whitespace-nowrap">
               Code licensed under the{" "}
               <a
                 href="https://opensource.org/license/mit"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="underline decoration-border underline-offset-4 transition-colors hover:text-lumi-magenta hover:decoration-lumi-magenta"
+                className={footerLink}
               >
                 MIT Licence
               </a>
             </span>
           </p>
+          {siteConfig.fundingNotice && (
+            <p className="max-w-[62ch] text-pretty">{siteConfig.fundingNotice}</p>
+          )}
         </footer>
       </article>
 
