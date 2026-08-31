@@ -13,7 +13,14 @@ interface Props {
 }
 
 const footerLink =
-  "underline decoration-border underline-offset-4 transition-colors hover:text-lumi-magenta hover:decoration-lumi-magenta";
+  "text-foreground/75 underline decoration-transparent underline-offset-4 transition-colors hover:text-lumi-magenta hover:decoration-lumi-magenta";
+
+/** Separator between the footer's legal items. */
+function FooterDot() {
+  return (
+    <span aria-hidden="true" className="h-1 w-1 shrink-0 rounded-full bg-current opacity-30" />
+  );
+}
 
 export function PageLayout({ page }: Props) {
   const articleRef = React.useRef<HTMLElement>(null);
@@ -92,12 +99,12 @@ export function PageLayout({ page }: Props) {
           </nav>
         )}
 
-        <footer className="mt-16 flex flex-col items-center gap-3 border-t border-border pt-8 pb-12 text-center text-[13px] leading-relaxed text-muted-foreground/70">
-          <p className="flex flex-wrap items-center justify-center gap-x-2.5 gap-y-1">
-            <span className="whitespace-nowrap">{siteConfig.copyright}</span>
-            <span aria-hidden="true" className="opacity-40">
-              &middot;
+        <footer className="mt-16 flex flex-col items-center gap-2.5 border-t border-border pt-8 pb-14 text-center leading-relaxed text-muted-foreground">
+          <p className="flex flex-wrap items-center justify-center gap-x-3 gap-y-1 text-[13px]">
+            <span className="whitespace-nowrap font-medium text-foreground/75">
+              {siteConfig.copyright}
             </span>
+            <FooterDot />
             <span className="whitespace-nowrap">
               Content licensed under{" "}
               <a
@@ -110,9 +117,7 @@ export function PageLayout({ page }: Props) {
                 CC BY 4.0
               </a>
             </span>
-            <span aria-hidden="true" className="opacity-40">
-              &middot;
-            </span>
+            <FooterDot />
             <span className="whitespace-nowrap">
               Code licensed under the{" "}
               <a
@@ -126,7 +131,9 @@ export function PageLayout({ page }: Props) {
             </span>
           </p>
           {siteConfig.fundingNotice && (
-            <p className="max-w-[62ch] text-pretty">{siteConfig.fundingNotice}</p>
+            <p className="max-w-[54ch] text-balance text-xs text-muted-foreground/70">
+              {siteConfig.fundingNotice}
+            </p>
           )}
         </footer>
       </article>
