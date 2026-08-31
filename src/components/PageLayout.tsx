@@ -12,6 +12,16 @@ interface Props {
   page: Page;
 }
 
+const footerLink =
+  "text-foreground/75 underline decoration-border underline-offset-4 transition-colors hover:text-lumi-magenta hover:decoration-lumi-magenta";
+
+/** Separator between the footer's legal items. */
+function FooterDot() {
+  return (
+    <span aria-hidden="true" className="h-1 w-1 shrink-0 rounded-full bg-current opacity-30" />
+  );
+}
+
 export function PageLayout({ page }: Props) {
   const articleRef = React.useRef<HTMLElement>(null);
   useScrollMemory(page.slug, articleRef);
@@ -89,13 +99,39 @@ export function PageLayout({ page }: Props) {
           </nav>
         )}
 
-        {siteConfig.fundingNotice && (
-          <footer className="mt-12 border-t border-border pt-6 pb-2">
-            <p className="mx-auto max-w-md text-center text-xs leading-relaxed text-muted-foreground/70">
-              {siteConfig.fundingNotice}
-            </p>
-          </footer>
-        )}
+        <footer className="mt-16 flex flex-col items-center gap-2.5 border-t border-border pt-8 pb-14 text-center leading-relaxed text-muted-foreground">
+          <p className="flex flex-wrap items-center justify-center gap-x-3 gap-y-1 text-[13px]">
+            <span className="whitespace-nowrap">{siteConfig.copyright}</span>
+            <FooterDot />
+            <span className="whitespace-nowrap">
+              Content licensed under{" "}
+              <a
+                href="https://creativecommons.org/licenses/by/4.0/"
+                target="_blank"
+                rel="noopener noreferrer"
+                title="Creative Commons Attribution 4.0 International"
+                className={footerLink}
+              >
+                CC BY 4.0
+              </a>
+            </span>
+            <FooterDot />
+            <span className="whitespace-nowrap">
+              Code licensed under the{" "}
+              <a
+                href="https://opensource.org/license/mit"
+                target="_blank"
+                rel="noopener noreferrer"
+                className={footerLink}
+              >
+                MIT Licence
+              </a>
+            </span>
+          </p>
+          {siteConfig.fundingNotice && (
+            <p className="text-pretty text-xs">{siteConfig.fundingNotice}</p>
+          )}
+        </footer>
       </article>
 
       <aside className="hidden xl:block">
