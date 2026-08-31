@@ -89,20 +89,20 @@ export function PageLayout({ page }: Props) {
           </nav>
         )}
 
-        <footer className="mt-12 border-t border-border pt-6 pb-8">
+        <footer className="mt-16 flex flex-col items-center gap-5 border-t border-border pt-8 pb-12 text-center text-[13px] leading-relaxed text-muted-foreground/60">
           {siteConfig.fundingNotice && (
-            <p className="mx-auto max-w-md text-center text-xs leading-relaxed text-muted-foreground/70 mb-4">
+            <p className="max-w-[70ch]">
               {siteConfig.fundingNotice}
             </p>
           )}
-          <div className="mx-auto max-w-2xl text-center text-xs leading-relaxed text-muted-foreground/70 space-y-1">
+          <div className="max-w-[70ch] space-y-1">
             <p>
               The content and documentation are licensed under the{" "}
               <a
                 href="https://creativecommons.org/licenses/by/4.0/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="underline hover:text-foreground transition-colors"
+                className="font-medium text-muted-foreground hover:text-foreground transition-colors"
               >
                 Creative Commons Attribution 4.0 International License (CC-BY 4.0)
               </a>
@@ -114,7 +114,7 @@ export function PageLayout({ page }: Props) {
                 href="https://opensource.org/licenses/MIT"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="underline hover:text-foreground transition-colors"
+                className="font-medium text-muted-foreground hover:text-foreground transition-colors"
               >
                 MIT License
               </a>
