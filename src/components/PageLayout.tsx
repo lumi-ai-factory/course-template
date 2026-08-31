@@ -129,9 +129,7 @@ export function PageLayout({ page }: Props) {
             </span>
           </p>
           {siteConfig.fundingNotice && (
-            <p className="text-pretty text-xs text-muted-foreground/70">
-              {siteConfig.fundingNotice}
-            </p>
+            <p className="text-pretty text-xs">{siteConfig.fundingNotice}</p>
           )}
         </footer>
       </article>
