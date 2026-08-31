@@ -13,7 +13,7 @@ interface Props {
 }
 
 const footerLink =
-  "text-foreground/75 underline decoration-transparent underline-offset-4 transition-colors hover:text-lumi-magenta hover:decoration-lumi-magenta";
+  "text-foreground/75 underline decoration-border underline-offset-4 transition-colors hover:text-lumi-magenta hover:decoration-lumi-magenta";
 
 /** Separator between the footer's legal items. */
 function FooterDot() {
@@ -101,9 +101,7 @@ export function PageLayout({ page }: Props) {
 
         <footer className="mt-16 flex flex-col items-center gap-2.5 border-t border-border pt-8 pb-14 text-center leading-relaxed text-muted-foreground">
           <p className="flex flex-wrap items-center justify-center gap-x-3 gap-y-1 text-[13px]">
-            <span className="whitespace-nowrap font-medium text-foreground/75">
-              {siteConfig.copyright}
-            </span>
+            <span className="whitespace-nowrap">{siteConfig.copyright}</span>
             <FooterDot />
             <span className="whitespace-nowrap">
               Content licensed under{" "}
@@ -131,7 +129,7 @@ export function PageLayout({ page }: Props) {
             </span>
           </p>
           {siteConfig.fundingNotice && (
-            <p className="max-w-[54ch] text-balance text-xs text-muted-foreground/70">
+            <p className="text-pretty text-xs text-muted-foreground/70">
               {siteConfig.fundingNotice}
             </p>
           )}
