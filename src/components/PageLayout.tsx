@@ -89,13 +89,39 @@ export function PageLayout({ page }: Props) {
           </nav>
         )}
 
-        {siteConfig.fundingNotice && (
-          <footer className="mt-12 border-t border-border pt-6 pb-2">
-            <p className="mx-auto max-w-md text-center text-xs leading-relaxed text-muted-foreground/70">
+        <footer className="mt-12 border-t border-border pt-6 pb-8">
+          {siteConfig.fundingNotice && (
+            <p className="mx-auto max-w-md text-center text-xs leading-relaxed text-muted-foreground/70 mb-4">
               {siteConfig.fundingNotice}
             </p>
-          </footer>
-        )}
+          )}
+          <div className="mx-auto max-w-2xl text-center text-xs leading-relaxed text-muted-foreground/70 space-y-1">
+            <p>
+              The content and documentation are licensed under the{" "}
+              <a
+                href="https://creativecommons.org/licenses/by/4.0/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="underline hover:text-foreground transition-colors"
+              >
+                Creative Commons Attribution 4.0 International License (CC-BY 4.0)
+              </a>
+              .
+            </p>
+            <p>
+              The code and examples are licensed under the{" "}
+              <a
+                href="https://opensource.org/licenses/MIT"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="underline hover:text-foreground transition-colors"
+              >
+                MIT License
+              </a>
+              .
+            </p>
+          </div>
+        </footer>
       </article>
 
       <aside className="hidden xl:block">

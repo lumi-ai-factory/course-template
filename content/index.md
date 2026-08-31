@@ -180,7 +180,7 @@ Images are clickable and can be opened full-screen.
   <figcaption><em>Figure 1: LUMI data center visual from the LUMI brand guide.</em></figcaption>
 </figure>
 
-If you want the image and the caption sitting on the left instead of being centred, use `margin: 0` on the image and `text-align: left` on the caption:
+If you want the image and the caption sitting on the left instead of being centred, use `margin: 0` without `auto` on the image and add `text-align: left` to the caption:
 
 <figure>
   <img src="./assets/lumi-data-center.jpg" alt="LUMI data center visual from the LUMI brand guide" style="width: 60%; max-width: 100%; margin: 0; display: block;" />
