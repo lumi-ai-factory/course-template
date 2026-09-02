@@ -26,7 +26,11 @@ The demo with examples of how to add content and new pages can be found in `cont
 
 ## Getting template updates into your course
 
-The template keeps improving (styling fixes, new features). A repository made with **Use this template** does not share git history with this template, so there is no "Sync fork" button — instead you copy the template's internals over with the commands below. Your own work is left alone: everything in `content/`, everything in `public/` (your images, logos, and any files you link to), and your `README.md` are untouched.
+The template keeps improving (styling fixes, new features), if you'd like to get the latest updates and features, you have 2 ways: do it yourself (if you know how to use the command line) or ask me to do it for you (you can reach out on RC or via email).
+
+To do it yourself:
+
+A repository made with **Use this template** does not share git history with this template, so there is no "Sync fork" button — instead you copy the template's internals over with the commands below. Your own work is left alone: everything in `content/`, everything in `public/` (your images, logos, and any files you link to), and your `README.md` are untouched.
 
 You need a local clone of **your** repository (`git clone <your-repo-url>`). Then, one time only, register the template as an extra remote:
 
