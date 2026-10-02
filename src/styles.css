@@ -233,24 +233,27 @@ html {
 
 
 .dark {
-  /* Dark theme: brand mixed with LUMI black, text colours lifted with white. */
-  --page-bg: var(--lumi-black);
-  --page-fg: color-mix(in oklab, white 94%, var(--lumi-black));
-  --n-surface: color-mix(in oklab, white 5%, var(--lumi-black));
-  --n-subtle: color-mix(in oklab, white 10%, var(--lumi-black));
-  --n-border: color-mix(in oklab, white 18%, var(--lumi-black));
-  --n-muted: color-mix(in oklab, white 68%, var(--lumi-black));
-  --blue-surface: color-mix(in oklab, var(--lumi-blue) 14%, var(--lumi-black));
-  --blue-subtle: color-mix(in oklab, var(--lumi-blue) 26%, var(--lumi-black));
-  --blue-border: color-mix(in oklab, var(--lumi-blue) 50%, var(--lumi-black));
+  /* Dark theme: brand mixed with LUMI black, text colours lifted with white.
+     The base is LUMI black deepened with pure black, so the page is darker
+     than #231f20 but keeps its warm grey tone. */
+  --dark-base: color-mix(in oklab, var(--lumi-black) 75%, black);
+  --page-bg: var(--dark-base);
+  --page-fg: color-mix(in oklab, white 94%, var(--dark-base));
+  --n-surface: color-mix(in oklab, white 5%, var(--dark-base));
+  --n-subtle: color-mix(in oklab, white 10%, var(--dark-base));
+  --n-border: color-mix(in oklab, white 18%, var(--dark-base));
+  --n-muted: color-mix(in oklab, white 68%, var(--dark-base));
+  --blue-surface: color-mix(in oklab, var(--lumi-blue) 14%, var(--dark-base));
+  --blue-subtle: color-mix(in oklab, var(--lumi-blue) 26%, var(--dark-base));
+  --blue-border: color-mix(in oklab, var(--lumi-blue) 50%, var(--dark-base));
   --blue-text: color-mix(in oklab, var(--lumi-blue) 55%, white);
-  --purple-surface: color-mix(in oklab, var(--lumi-purple) 14%, var(--lumi-black));
-  --purple-subtle: color-mix(in oklab, var(--lumi-purple) 26%, var(--lumi-black));
-  --purple-border: color-mix(in oklab, var(--lumi-purple) 50%, var(--lumi-black));
+  --purple-surface: color-mix(in oklab, var(--lumi-purple) 14%, var(--dark-base));
+  --purple-subtle: color-mix(in oklab, var(--lumi-purple) 26%, var(--dark-base));
+  --purple-border: color-mix(in oklab, var(--lumi-purple) 50%, var(--dark-base));
   --purple-text: color-mix(in oklab, var(--lumi-purple) 55%, white);
-  --magenta-surface: color-mix(in oklab, var(--lumi-magenta) 14%, var(--lumi-black));
-  --magenta-subtle: color-mix(in oklab, var(--lumi-magenta) 26%, var(--lumi-black));
-  --magenta-border: color-mix(in oklab, var(--lumi-magenta) 50%, var(--lumi-black));
+  --magenta-surface: color-mix(in oklab, var(--lumi-magenta) 14%, var(--dark-base));
+  --magenta-subtle: color-mix(in oklab, var(--lumi-magenta) 26%, var(--dark-base));
+  --magenta-border: color-mix(in oklab, var(--lumi-magenta) 50%, var(--dark-base));
   --magenta-text: color-mix(in oklab, var(--lumi-magenta) 55%, white);
 
   /* Raised surfaces are lighter than the page in the dark theme. */

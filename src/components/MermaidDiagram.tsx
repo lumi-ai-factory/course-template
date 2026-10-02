@@ -38,10 +38,11 @@ function brandRamp(): string[] {
 function buildThemeVariables(mode: "light" | "dark"): Record<string, string> {
   const dark = mode === "dark";
   // Diagram surface colour: the --code-bg token the container box uses (blue
-  // 6% into white, 14% into black). Only mermaid's internal colour derivations
-  // depend on this; the visible edge-label backgrounds are forced to
-  // var(--code-bg) by a CSS override in styles.css.
-  const bg = dark ? mix(BLUE, BLACK, 0.14) : mix(BLUE, WHITE, 0.06);
+  // 6% into white, 14% into the dark theme's base of LUMI black deepened with
+  // pure black). Only mermaid's internal colour derivations depend on this;
+  // the visible edge-label backgrounds are forced to var(--code-bg) by a CSS
+  // override in styles.css.
+  const bg = dark ? mix(BLUE, mix(BLACK, "#000000", 0.75), 0.14) : mix(BLUE, WHITE, 0.06);
   const fg = dark ? WHITE : BLACK;
   const ramp = brandRamp();
 
