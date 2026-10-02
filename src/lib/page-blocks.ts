@@ -55,6 +55,33 @@ function asMapping(parsed: unknown): Record<string, unknown> | null {
 }
 
 /**
+ * Read front matter that is not valid YAML line by line, as `key: value`, so a
+ * value with a colon in it (`title: Chapter 2: Slurm`) still works. Everything
+ * after the first colon is the value.
+ */
+function looseFrontMatter(yaml: string): Record<string, unknown> {
+  const data: Record<string, unknown> = {};
+  for (const line of yaml.split(/\r?\n/)) {
+    const m = /^([A-Za-z_]+)[ \t]*:[ \t]*(.*?)[ \t]*$/.exec(line);
+    if (!m) continue;
+    const value = m[2].replace(/^(["'])(.*)\1$/, "$2");
+    data[m[1]] = /^-?\d+(\.\d+)?$/.test(value) ? Number(value) : value;
+  }
+  return data;
+}
+
+function parseOpening(yaml: string, warn?: (message: string) => void): Record<string, unknown> {
+  try {
+    return asMapping(parseYaml(yaml)) ?? {};
+  } catch {
+    warn?.(
+      `the front matter at the top of the file is not valid YAML, so it was read line by line instead. Put quotes around any value containing a colon, e.g. title: "Chapter 2: Slurm".`,
+    );
+    return looseFrontMatter(yaml);
+  }
+}
+
+/**
  * Split a markdown file into its pages: the file's own page first, then one
  * per front-matter block written further down.
  *
@@ -66,7 +93,7 @@ export function splitPageBlocks(raw: string, warn?: (message: string) => void): 
   // Strip a leading BOM, then match the opening `---` fence at the very start.
   const text = raw.replace(/^\uFEFF/, "");
   const opening = /^---\r?\n([\s\S]*?)\r?\n---\r?\n?/.exec(text);
-  const ownData = opening ? (asMapping(parseYaml(opening[1])) ?? {}) : {};
+  const ownData = opening ? parseOpening(opening[1], warn) : {};
   const body = opening ? text.slice(opening[0].length) : text;
   // Line numbers in warnings count from the top of the file, not from here.
   const lineOffset = opening ? opening[0].split("\n").length - 1 : 0;

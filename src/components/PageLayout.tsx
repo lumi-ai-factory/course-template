@@ -4,7 +4,7 @@ import { MarkdownRenderer } from "./MarkdownRenderer";
 import { PageLink } from "./PageLink";
 import { TableOfContents } from "./TableOfContents";
 import { extractToc } from "@/lib/toc";
-import { getBreadcrumbs, getPrevNext, type Page } from "@/lib/content";
+import { getPrevNext, type Page } from "@/lib/content";
 import { useScrollMemory } from "@/hooks/use-scroll-memory";
 import { siteConfig } from "@/lib/site";
 
@@ -27,7 +27,6 @@ export function PageLayout({ page }: Props) {
   useScrollMemory(page.slug, articleRef);
   const isGlossary = page.slug === "glossary";
   const toc = React.useMemo(() => extractToc(page.body), [page.body]);
-  const breadcrumbs = React.useMemo(() => getBreadcrumbs(page.slug), [page.slug]);
   const { prev, next } = React.useMemo(() => getPrevNext(page.slug), [page.slug]);
 
   return (
@@ -36,29 +35,6 @@ export function PageLayout({ page }: Props) {
         ref={articleRef}
         className="min-w-0 mx-auto w-full max-w-[78ch] xl:mx-0 xl:max-w-none"
       >
-        {breadcrumbs.length > 1 && (
-          <nav
-            aria-label="Breadcrumb"
-            className="mb-6 flex flex-wrap items-center gap-1.5 text-sm text-muted-foreground"
-          >
-            {breadcrumbs.map((crumb, i) => {
-              const isLast = i === breadcrumbs.length - 1;
-              return (
-                <React.Fragment key={crumb.slug}>
-                  {i > 0 && <span className="opacity-60">/</span>}
-                  {isLast ? (
-                    <span className="text-foreground/80">{crumb.frontmatter.title}</span>
-                  ) : (
-                    <PageLink slug={crumb.slug} className="hover:text-lumi-magenta hover:underline">
-                      {crumb.frontmatter.title}
-                    </PageLink>
-                  )}
-                </React.Fragment>
-              );
-            })}
-          </nav>
-        )}
-
         <MarkdownRenderer source={page.body} enableGlossary={!isGlossary} />
 
         {(prev || next) && (
