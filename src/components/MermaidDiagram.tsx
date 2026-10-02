@@ -37,12 +37,11 @@ function brandRamp(): string[] {
 
 function buildThemeVariables(mode: "light" | "dark"): Record<string, string> {
   const dark = mode === "dark";
-  // Diagram surface colour: hex equivalents of the --code-bg tokens the
-  // container box uses. Only mermaid's internal colour derivations depend on
-  // these being exact — the visible edge-label backgrounds are forced to
-  // var(--code-bg) by a CSS override in styles.css, so they always match the
-  // box even if these approximations drift from the stylesheet.
-  const bg = dark ? "#1a2026" : "#f3f9fd";
+  // Diagram surface colour: the --code-bg token the container box uses (blue
+  // 6% into white, 14% into black). Only mermaid's internal colour derivations
+  // depend on this; the visible edge-label backgrounds are forced to
+  // var(--code-bg) by a CSS override in styles.css.
+  const bg = dark ? mix(BLUE, BLACK, 0.14) : mix(BLUE, WHITE, 0.06);
   const fg = dark ? WHITE : BLACK;
   const ramp = brandRamp();
 

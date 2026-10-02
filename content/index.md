@@ -289,6 +289,8 @@ Once a term is defined there, you can reference it anywhere by putting a single 
 
 See the [Glossary](/glossary) page for the term table you edit.
 
+Don't need a glossary? Delete `content/glossary.md` and the page and its sidebar link disappear.
+
 ## Jupyter notebooks as pages
 
 You can drop `.ipynb` files directly into the `content/` folder. The template converts them into pages automatically on the fly. They will look and feel exactly like regular pages, appearing in the sidebar and table of contents with no extra effort required. See [Chapter 2](/03_notebook_example) for a working example and details on how notebook features map to pages.
