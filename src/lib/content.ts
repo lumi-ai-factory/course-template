@@ -116,6 +116,11 @@ export const pages: Page[] = Object.entries(rawModules)
  * `bun run dev` and in the CI build log when the site is prerendered.
  */
 function warnAboutContentMistakes(all: Page[]) {
+  if (!all.some((page) => page.slug === "")) {
+    console.warn(
+      `[content] content/index.md is missing, so the site's home page shows "not found". The landing page must be a file named exactly index.md in content/.`,
+    );
+  }
   const byTitle = new Map<string, Page>();
   for (const page of all) {
     const title = page.frontmatter.title;

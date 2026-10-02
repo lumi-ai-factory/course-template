@@ -121,7 +121,11 @@ function sitemapPlugin(): Plugin {
         const urls = files.flatMap((f) => {
           const lastmod = lastModified(f);
           return slugsInFile(f).map((slug) => {
-            const loc = slug === "" ? `${base}/` : `${base}/${slug}/`;
+            // Encode spaces and accents, and escape `&` for XML (`Q&A.md`).
+            const loc = encodeURI(slug === "" ? `${base}/` : `${base}/${slug}/`).replace(
+              /&/g,
+              "&amp;",
+            );
             return `  <url><loc>${loc}</loc><lastmod>${lastmod}</lastmod></url>`;
           });
         });
@@ -189,7 +193,9 @@ export default defineConfig({
         },
       },
       server: { entry: "server" },
-      spa: { enabled: true },
+      // Render the SPA shell at its own path: at the default "/" it replaces the
+      // prerendered home page. The workflow serves it as 404.html.
+      spa: { enabled: true, maskPath: "/_shell" },
       pages: contentPages(),
     }),
     viteReact(),

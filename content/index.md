@@ -79,6 +79,13 @@ module use /appl/local/laifs/modules
 module load lumi-aif-singularity-bindings
 ```
 
+- **Local terminal**: tag a code block with `shlocal` for commands run on the student's own computer rather than on LUMI. It is the same terminal window, with a `user@laptop:~$` prompt instead:
+
+```shlocal
+ssh-keygen -t ed25519
+ssh username@lumi.csc.fi
+```
+
 - **Shell scripts**: tag a code block with `sh` and it renders as a nano editor window instead: a file being edited, with no `user@lumi:~$` prompt. Use this for `.sh` scripts students save and run, rather than commands typed live:
 
 ```sh title="submit.sh"
@@ -277,6 +284,7 @@ Once a term is defined there, you can reference it anywhere by putting a single 
 - Multi-word terms work too. Put the percent sign after the last word: Front Matter%.
 - Plural forms are also recognised: if the glossary defines **Front Matter**, then Front Matters% works just as well. Even back-ticked code terms work: `Front Matters%` is recognised too.
 - The percent sign can go inside *or* outside any inline formatting, so `Front Matter%` and `Front Matter`% both work, as do *Front Matter%* and *Front Matter*%.
+- A term can also have a link attached: [Markdown%](https://commonmark.org)
 - A word that isn't in the glossary table is left exactly as you typed it, so ordinary percent signs are never affected.
 
 See the [Glossary](/glossary) page for the term table you edit.
