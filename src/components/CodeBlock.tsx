@@ -91,7 +91,8 @@ export function CodeBlock({
   const lang = className?.match(/language-(\w+)/)?.[1];
   const isTerminal = lang ? TERMINAL_LANGS.has(lang.toLowerCase()) : false;
   const isNano = lang ? NANO_LANGS.has(lang.toLowerCase()) : false;
-  const host = lang && LOCAL_LANGS.has(lang.toLowerCase()) ? "laptop" : "lumi";
+  const isLocal = lang ? LOCAL_LANGS.has(lang.toLowerCase()) : false;
+  const host = isLocal ? "laptop" : "LUMI";
 
   const onCopy = async () => {
     let text = "";
@@ -159,7 +160,12 @@ export function CodeBlock({
 
   if (isTerminal) {
     return (
-      <div className="terminal-block group relative my-5 overflow-hidden rounded-md border border-terminal-border shadow-md">
+      <div
+        className={cn(
+          "terminal-block group relative my-5 overflow-hidden rounded-md border border-terminal-border shadow-md",
+          isLocal && "terminal-block-local",
+        )}
+      >
         <div className="terminal-chrome flex items-center justify-between px-3 py-1.5">
           <div className="w-16" />
           <span className="font-sans text-xs text-terminal-chrome-fg truncate">

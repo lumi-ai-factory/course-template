@@ -71,7 +71,7 @@ import torch
 model = torch.nn.Linear(10, 1)
 ```
 
-- **Terminal blocks**: tag a code block with `bash`, `shell`, `zsh`, or `console` and it renders as an Ubuntu styled terminal window with a `user@lumi:~$` prompt on every line. The copy button only copies the actual commands, not the prompt, so students can paste straight into their shell:
+- **Terminal blocks**: tag a code block with `bash`, `shell`, `zsh`, or `console` and it renders as an Ubuntu styled terminal window with a `user@LUMI:~$` prompt on every line. The copy button only copies the actual commands, not the prompt, so students can paste straight into their shell:
 
 ```bash
 module purge
@@ -86,7 +86,7 @@ ssh-keygen -t ed25519
 ssh username@lumi.csc.fi
 ```
 
-- **Shell scripts**: tag a code block with `sh` and it renders as a nano editor window instead: a file being edited, with no `user@lumi:~$` prompt. Use this for `.sh` scripts students save and run, rather than commands typed live:
+- **Shell scripts**: tag a code block with `sh` and it renders as a nano editor window instead: a file being edited, with no `user@LUMI:~$` prompt. Use this for `.sh` scripts students save and run, rather than commands typed live:
 
 ```sh title="submit.sh"
 #!/bin/bash

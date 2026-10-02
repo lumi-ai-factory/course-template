@@ -81,6 +81,7 @@
   --color-terminal-border: var(--terminal-border);
   --color-terminal-fg: var(--terminal-fg);
   --color-terminal-prompt: var(--terminal-prompt);
+  --color-terminal-prompt-local: var(--terminal-prompt-local);
   --color-terminal-chrome-fg: var(--terminal-chrome-fg);
 
   /* Callouts */
@@ -167,7 +168,10 @@ html {
   --terminal-chrome-fg: oklch(0.96 0.005 280);
   --terminal-border: oklch(0.18 0.04 350);
   --terminal-fg: #ffffff;
-  --terminal-prompt: oklch(0.78 0.18 142);      /* Ubuntu green prompt */
+  /* Lightened so both prompts reach about 7:1 on the aubergine, also under
+     simulated colour blindness. Pure magenta and purple fall below 4.5:1. */
+  --terminal-prompt: color-mix(in oklab, var(--lumi-magenta) 60%, white);      /* user@LUMI */
+  --terminal-prompt-local: color-mix(in oklab, var(--lumi-purple) 60%, white); /* user@laptop */
 
   --callout-note-bg: oklch(0.97 0.018 290);
   --callout-note-border: oklch(0.85 0.04 290);
@@ -244,7 +248,8 @@ html {
   --terminal-chrome-fg: oklch(0.96 0.005 280);
   --terminal-border: oklch(0.16 0.04 350);
   --terminal-fg: #ffffff;
-  --terminal-prompt: oklch(0.78 0.18 142);
+  --terminal-prompt: color-mix(in oklab, var(--lumi-magenta) 60%, white);
+  --terminal-prompt-local: color-mix(in oklab, var(--lumi-purple) 60%, white);
 
   --callout-note-bg: oklch(0.27 0.04 290);
   --callout-note-border: oklch(0.4 0.08 290);
@@ -741,6 +746,10 @@ pre.with-line-numbers .code-line::before {
   color: var(--color-terminal-prompt);
   font-weight: 600;
   user-select: none;
+}
+
+.terminal-block-local .terminal-prompt {
+  color: var(--color-terminal-prompt-local);
 }
 
 .terminal-command {
