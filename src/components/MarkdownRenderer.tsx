@@ -529,11 +529,11 @@ export function MarkdownRenderer({ source, enableGlossary = true }: MarkdownRend
             // Internal links go through the router so the GitHub Pages base
             // path (e.g. "/<repo>/") is applied automatically.
             // `chapter1.md` (what editor previews expect) means the page `/chapter1`.
+            // Only `index.md` itself is the home page; `sub/index` stays a page.
             const [file, hash] = href.split("#");
-            const path = file
-              .replace(/^\.\//, "")
-              .replace(/\.md$/i, "")
-              .replace(/(^|\/)index$/, "$1");
+            const isMd = /\.md$/i.test(file);
+            let path = file.replace(/^\.\//, "").replace(/\.md$/i, "");
+            if (isMd && /^\/?index$/.test(path)) path = "/";
             const to = path.startsWith("/") ? path : `/${path}`;
             return (
               <Link to={to as string} hash={hash || undefined} className={className}>
